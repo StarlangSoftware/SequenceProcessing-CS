@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NlpToolkit-Classification" Version="1.0.6" />
+      <PackageReference Include="NlpToolkit-WordToVec" Version="1.0.5" />
+    </ItemGroup>
+
+</Project>
