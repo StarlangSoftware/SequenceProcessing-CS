@@ -9,4 +9,10 @@
       <PackageReference Include="NlpToolkit-WordToVec" Version="1.0.5" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Classification" />
+      <Folder Include="Labeling" />
+      <Folder Include="Sequence" />
+    </ItemGroup>
+
 </Project>

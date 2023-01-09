@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequenceProcessing", "SequenceProcessing\SequenceProcessing.csproj", "{13B178BF-99CE-4CBC-AFAF-44E2E751AB1F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{940817D9-91E3-4D1C-AE1B-11A8E61B5B41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{13B178BF-99CE-4CBC-AFAF-44E2E751AB1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13B178BF-99CE-4CBC-AFAF-44E2E751AB1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13B178BF-99CE-4CBC-AFAF-44E2E751AB1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{940817D9-91E3-4D1C-AE1B-11A8E61B5B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{940817D9-91E3-4D1C-AE1B-11A8E61B5B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{940817D9-91E3-4D1C-AE1B-11A8E61B5B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{940817D9-91E3-4D1C-AE1B-11A8E61B5B41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
