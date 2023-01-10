@@ -10,7 +10,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Classification" />
       <Folder Include="Labeling" />
       <Folder Include="Sequence" />
     </ItemGroup>
