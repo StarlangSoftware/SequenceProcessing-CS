@@ -1,10 +1,53 @@
+using System.Collections.Generic;
+using Classification.Parameter;
+using Dictionary.Dictionary;
 using NUnit.Framework;
+using SequenceProcessing.Classification;
 using SequenceProcessing.Sequence;
+using WordToVec;
 
 namespace Test
 {
     public class SequenceCorpusTest
     {
+        
+        private void VectorizedCorpus(SequenceCorpus corpus, VectorizedDictionary dictionary) {
+            for (var i = 0; i < corpus.SentenceCount(); i++) {
+                var sentence = corpus.GetSentence(i);
+                for (var j = 0; j < sentence.WordCount(); j++) {
+                    var word = (LabelledVectorizedWord) sentence.GetWord(j);
+                    var vectorizedWord = (VectorizedWord) dictionary.GetWord(word.GetName());
+                    sentence.ReplaceWord(j, new LabelledVectorizedWord(word.GetName(), vectorizedWord.GetVector(), word.GetClassLabel()));
+                }
+            }
+        }
+        
+        [Test]
+        public void TestRNN() {
+            var corpus = new SequenceCorpus("postag-atis-tr.txt");
+            var testCorpus = new SequenceCorpus("postag-atis-tr-test.txt");
+            var neuralNetwork = new NeuralNetwork(corpus, new WordToVecParameter());
+            var dictionary = neuralNetwork.Train();
+            VectorizedCorpus(corpus, dictionary);
+            VectorizedCorpus(testCorpus, dictionary);
+            int correct = 0, total = 0;
+            var hidden = new List<int>();
+            hidden.Add(10);
+            var model = new RecurrentNeuralNetworkModel(corpus, new DeepNetworkParameter(1, 0.01, 0.99, 0.9, 100, hidden, ActivationFunction.SIGMOID));
+            for (var i = 0; i < testCorpus.SentenceCount(); i++) {
+                var sentence = testCorpus.GetSentence(i);
+                var list = model.Predict(sentence);
+                for (var j = 0; j < list.Count; j++) {
+                    var word = (LabelledVectorizedWord) sentence.GetWord(j);
+                    if (list[j].Equals(word.GetClassLabel())) {
+                        correct++;
+                    }
+                    total++;
+                }
+            }
+            Assert.AreEqual(97.79595765158807, (correct * 100.00) / (total + 0.00));
+        }
+        
         [Test]
         public void TestCorpus01()
         {
