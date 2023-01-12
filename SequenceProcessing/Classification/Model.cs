@@ -154,11 +154,8 @@ namespace SequenceProcessing.Classification {
             }
             return r;
         }
-        
-        protected void Clear() {
-            OldLayersUpdate();
-            SetLayersValuesToZero();
-        }
+
+        protected abstract void Clear();
 
         protected void ClearOldValues() {
             for (var i = 0; i < _oldLayers.Count; i++) {

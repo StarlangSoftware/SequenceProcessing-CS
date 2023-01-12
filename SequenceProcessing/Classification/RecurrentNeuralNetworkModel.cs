@@ -58,5 +58,10 @@ namespace SequenceProcessing.Classification {
             _layers[_layers.Count - 1].Add(_weights[_weights.Count - 1].Multiply(_layers[_layers.Count - 2]));
             NormalizeOutput();
         }
+        
+        protected override void Clear() {
+            OldLayersUpdate();
+            SetLayersValuesToZero();
+        }
     }
 }
