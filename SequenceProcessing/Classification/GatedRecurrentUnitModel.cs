@@ -59,11 +59,9 @@ namespace SequenceProcessing.Classification {
                         zDeltaWeights.Add((Matrix) deltaWeights[deltaWeights.Count - 1].Clone()); 
                         zDeltaRecurrentWeights.Add((Matrix) deltaWeights[deltaWeights.Count - 1].Clone()); 
                         for (var l = parameters.LayerSize() - 1; l >= 0; l--) { 
-                            var delta = deltaWeights[deltaWeights.Count - 1].ElementProduct(_zVectors[l]).ElementProduct(Derivative(_aVectors[l], global::Classification.Parameter.ActivationFunction.TANH)); 
-                            var diff = (Matrix) _aVectors[l].Clone(); 
-                            diff.Subtract(_oldLayers[l]); 
-                            var zDelta = zDeltaWeights[zDeltaWeights.Count - 1].ElementProduct(diff).ElementProduct(Derivative(_zVectors[l], _activationFunction)); 
-                            var rDelta = rDeltaWeights[rDeltaWeights.Count - 1].ElementProduct(diff).ElementProduct(Derivative(_zVectors[l], _activationFunction)).Transpose().Multiply(_recurrentWeights[l]).Transpose().ElementProduct(_oldLayers[l]).ElementProduct(Derivative(_rVectors[l], _activationFunction)); 
+                            var delta = deltaWeights[deltaWeights.Count - 1].ElementProduct(_zVectors[l]).ElementProduct(Derivative(_aVectors[l], global::Classification.Parameter.ActivationFunction.TANH));
+                            var zDelta = zDeltaWeights[zDeltaWeights.Count - 1].ElementProduct(_aVectors[l].Difference(_oldLayers[l])).ElementProduct(Derivative(_zVectors[l], _activationFunction)); 
+                            var rDelta = rDeltaWeights[rDeltaWeights.Count - 1].ElementProduct(_aVectors[l].Difference(_oldLayers[l])).ElementProduct(Derivative(_zVectors[l], _activationFunction)).Transpose().Multiply(_recurrentWeights[l]).Transpose().ElementProduct(_oldLayers[l]).ElementProduct(Derivative(_rVectors[l], _activationFunction)); 
                             deltaWeights[deltaWeights.Count - 1] = delta.Multiply(_layers[l].Transpose()); 
                             deltaRecurrentWeights[deltaRecurrentWeights.Count - 1] = delta.Multiply((_rVectors[l].ElementProduct(_oldLayers[l])).Transpose()); 
                             zDeltaWeights[zDeltaWeights.Count - 1] = zDelta.Multiply(_layers[l].Transpose()); 
