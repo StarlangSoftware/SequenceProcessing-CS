@@ -1,7 +1,7 @@
 For Developers
 ============
 
-You can also see [Java](https://github.com/StarlangSoftware/SequenceProcessing) or [C++]((https://github.com/StarlangSoftware/SequenceProcessing-CPP) repository.
+You can also see [Java](https://github.com/StarlangSoftware/SequenceProcessing) or [C++](https://github.com/StarlangSoftware/SequenceProcessing-CPP) repository.
 
 ## Requirements
 
