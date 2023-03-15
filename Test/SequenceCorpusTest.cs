@@ -3,6 +3,7 @@ using Classification.Parameter;
 using Dictionary.Dictionary;
 using NUnit.Framework;
 using SequenceProcessing.Classification;
+using SequenceProcessing.Initializer;
 using SequenceProcessing.Sequence;
 using WordToVec;
 
@@ -33,7 +34,7 @@ namespace Test
             int correct = 0, total = 0;
             var hidden = new List<int>();
             hidden.Add(10);
-            var model = new RecurrentNeuralNetworkModel(corpus, new DeepNetworkParameter(1, 0.01, 0.99, 0.9, 100, hidden, ActivationFunction.SIGMOID));
+            var model = new RecurrentNeuralNetworkModel(corpus, new DeepNetworkParameter(1, 0.01, 0.99, 0.9, 100, hidden, ActivationFunction.SIGMOID), new Random());
             for (var i = 0; i < testCorpus.SentenceCount(); i++) {
                 var sentence = testCorpus.GetSentence(i);
                 var list = model.Predict(sentence);

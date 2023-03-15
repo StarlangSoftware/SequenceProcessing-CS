@@ -17,7 +17,7 @@ namespace SequenceProcessing.Classification {
         private List<Matrix> _rRecurrentWeights;
 
 
-        public GatedRecurrentUnitModel(SequenceCorpus corpus, DeepNetworkParameter parameters) : base(corpus, parameters) {
+        public GatedRecurrentUnitModel(SequenceCorpus corpus, DeepNetworkParameter parameters, Initializer.Initializer initializer) : base(corpus, parameters, initializer) {
             var epoch = parameters.GetEpoch(); 
             var learningRate = parameters.GetLearningRate(); 
             _aVectors = new List<Matrix>(); 
@@ -31,10 +31,10 @@ namespace SequenceProcessing.Classification {
                 _aVectors.Add(new Matrix(parameters.GetHiddenNodes(i), 1)); 
                 _zVectors.Add(new Matrix(parameters.GetHiddenNodes(i), 1)); 
                 _rVectors.Add(new Matrix(parameters.GetHiddenNodes(i), 1)); 
-                _zWeights.Add(new Matrix(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, -0.01, +0.01, new Random(parameters.GetSeed()))); 
-                _rWeights.Add(new Matrix(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, -0.01, +0.01, new Random(parameters.GetSeed()))); 
-                _zRecurrentWeights.Add(new Matrix(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), -0.01, +0.01, new Random(parameters.GetSeed()))); 
-                _rRecurrentWeights.Add(new Matrix(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), -0.01, +0.01, new Random(parameters.GetSeed()))); 
+                _zWeights.Add(initializer.Initialize(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, new Random(parameters.GetSeed()))); 
+                _rWeights.Add(initializer.Initialize(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, new Random(parameters.GetSeed()))); 
+                _zRecurrentWeights.Add(initializer.Initialize(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), new Random(parameters.GetSeed()))); 
+                _rRecurrentWeights.Add(initializer.Initialize(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), new Random(parameters.GetSeed()))); 
             } 
             for (var i = 0; i < epoch; i++) { 
                 corpus.ShuffleSentences(parameters.GetSeed()); 

@@ -7,7 +7,7 @@ namespace SequenceProcessing.Classification {
     
     public class RecurrentNeuralNetworkModel : Model {
         
-        public RecurrentNeuralNetworkModel(SequenceCorpus corpus, DeepNetworkParameter parameters) : base(corpus, parameters) {
+        public RecurrentNeuralNetworkModel(SequenceCorpus corpus, DeepNetworkParameter parameters, Initializer.Initializer initializer) : base(corpus, parameters, initializer) {
             var epoch = parameters.GetEpoch(); 
             var learningRate = parameters.GetLearningRate(); 
             for (var i = 0; i < epoch; i++) { 

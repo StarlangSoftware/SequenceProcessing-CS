@@ -23,7 +23,7 @@ namespace SequenceProcessing.Classification {
         private List<Matrix> _cVectors;
         private List<Matrix> _cOldVectors;
         
-        public LongShortTermMemoryModel(SequenceCorpus corpus, DeepNetworkParameter parameters) : base(corpus, parameters) {
+        public LongShortTermMemoryModel(SequenceCorpus corpus, DeepNetworkParameter parameters, Initializer.Initializer initializer) : base(corpus, parameters, initializer) {
              var epoch = parameters.GetEpoch(); 
              var learningRate = parameters.GetLearningRate(); 
              _fVectors = new List<Matrix>(); 
@@ -47,14 +47,14 @@ namespace SequenceProcessing.Classification {
                  _oVectors.Add(new Matrix(parameters.GetHiddenNodes(i), 1)); 
                  _cVectors.Add(new Matrix(parameters.GetHiddenNodes(i), 1)); 
                  _cOldVectors.Add(new Matrix(parameters.GetHiddenNodes(i), 1)); 
-                 _fWeights.Add(new Matrix(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, -0.01, +0.01, new Random(parameters.GetSeed()))); 
-                 _gWeights.Add(new Matrix(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, -0.01, +0.01, new Random(parameters.GetSeed()))); 
-                 _iWeights.Add(new Matrix(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, -0.01, +0.01, new Random(parameters.GetSeed()))); 
-                 _oWeights.Add(new Matrix(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, -0.01, +0.01, new Random(parameters.GetSeed()))); 
-                 _fRecurrentWeights.Add(new Matrix(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), -0.01, +0.01, new Random(parameters.GetSeed()))); 
-                 _gRecurrentWeights.Add(new Matrix(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), -0.01, +0.01, new Random(parameters.GetSeed()))); 
-                 _iRecurrentWeights.Add(new Matrix(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), -0.01, +0.01, new Random(parameters.GetSeed()))); 
-                 _oRecurrentWeights.Add(new Matrix(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), -0.01, +0.01, new Random(parameters.GetSeed()))); 
+                 _fWeights.Add(initializer.Initialize(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, new Random(parameters.GetSeed()))); 
+                 _gWeights.Add(initializer.Initialize(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, new Random(parameters.GetSeed()))); 
+                 _iWeights.Add(initializer.Initialize(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, new Random(parameters.GetSeed()))); 
+                 _oWeights.Add(initializer.Initialize(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, new Random(parameters.GetSeed()))); 
+                 _fRecurrentWeights.Add(initializer.Initialize(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), new Random(parameters.GetSeed()))); 
+                 _gRecurrentWeights.Add(initializer.Initialize(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), new Random(parameters.GetSeed()))); 
+                 _iRecurrentWeights.Add(initializer.Initialize(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), new Random(parameters.GetSeed()))); 
+                 _oRecurrentWeights.Add(initializer.Initialize(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), new Random(parameters.GetSeed()))); 
              } 
              for (var i = 0; i < epoch; i++) { 
                  corpus.ShuffleSentences(parameters.GetSeed()); 

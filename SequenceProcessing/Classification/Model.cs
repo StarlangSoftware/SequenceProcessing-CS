@@ -17,7 +17,7 @@ namespace SequenceProcessing.Classification {
         protected List<string> _classLabels;
         protected ActivationFunction _activationFunction;
         
-        public Model(SequenceCorpus corpus, DeepNetworkParameter parameters) {
+        public Model(SequenceCorpus corpus, DeepNetworkParameter parameters, Initializer.Initializer initializer) {
             _corpus = corpus;
             _activationFunction = parameters.GetActivationFunction();
             var layers = new List<Matrix>();
@@ -30,11 +30,11 @@ namespace SequenceProcessing.Classification {
             for (var i = 0; i < parameters.LayerSize(); i++) {
                 oldLayers.Add(new Matrix(parameters.GetHiddenNodes(i), 1));
                 layers.Add(new Matrix(parameters.GetHiddenNodes(i), 1));
-                recurrentWeights.Add(new Matrix(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), -0.01, +0.01, new Random(parameters.GetSeed())));
+                recurrentWeights.Add(initializer.Initialize(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), new Random(parameters.GetSeed())));
             }
             layers.Add(new Matrix(_classLabels.Count, 1));
             for (var i = 0; i < layers.Count - 1; i++) {
-                weights.Add(new Matrix(layers[i + 1].GetRow(), layers[i].GetRow() + 1, -0.01, +0.01, new Random(parameters.GetSeed())));
+                weights.Add(initializer.Initialize(layers[i + 1].GetRow(), layers[i].GetRow() + 1, new Random(parameters.GetSeed())));
             }
             _layers = layers;
             _oldLayers = oldLayers;
